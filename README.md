@@ -14,10 +14,16 @@ python chat.py
 ## LangGraph demo
 
 
-An alternative implementation using [LangGraph](https://github.com/langchain-ai/langgraph) is provided. Install the package with:
+To visualize the workflow, you need the optional `pygraphviz` package and the
+Graphviz system libraries.
 
 ```bash
-pip install langgraph
+sudo apt-get install graphviz graphviz-dev  # Ubuntu/Debian
+If `pygraphviz` is not available, you can still run the demo without the
+`--draw-graph` option. The graph will be skipped and the chatbot works as usual.
+
+Running with `--draw-graph` writes `workflow.png` showing the conversation
+workflow.
 ```
 
 Run the demo with:

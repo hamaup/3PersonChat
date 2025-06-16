@@ -6,7 +6,6 @@ from bot import BotService
 from operator_service import OperatorService
 from langgraph.graph import Graph, END
 import argparse
-import pygraphviz as pgv
 
 
 def main() -> None:
@@ -19,7 +18,13 @@ def main() -> None:
     args = parser.parse_args()
 
     def save_graph(graph: Graph, path: str = "workflow.png") -> None:
-        """Render the workflow to a PNG file."""
+        """Render the workflow to a PNG file if pygraphviz is available."""
+        try:
+            import pygraphviz as pgv
+        except ImportError:
+            print("pygraphviz がインストールされていないため、グラフを保存できません。")
+            return
+
         g = pgv.AGraph(directed=True)
         for node in graph.nodes:
             label = "START" if node == "__start__" else "END" if node == "__end__" else node
