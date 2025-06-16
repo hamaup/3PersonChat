@@ -24,7 +24,6 @@ def main() -> None:
         except ImportError:
             print("pygraphviz がインストールされていないため、グラフを保存できません。")
             return
-
         g = pgv.AGraph(directed=True)
         for node in graph.nodes:
             label = "START" if node == "__start__" else "END" if node == "__end__" else node
@@ -46,6 +45,7 @@ def main() -> None:
         g.draw(path)
 
     bot = BotService()
+
     operator = OperatorService()
 
     def bot_node(data: dict[str, str]) -> dict[str, Any]:
