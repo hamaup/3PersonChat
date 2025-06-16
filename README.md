@@ -11,5 +11,14 @@ Run it with:
 python chat.py
 ```
 
+## LangGraph demo
+
+An alternative implementation using [LangGraph](https://github.com/langchain-ai/langgraph) is provided.
+Run it with:
+
+```bash
+python langgraph_chat.py
+```
+
 Type messages in Japanese. When the bot detects low confidence or keywords,
 it prompts for a human operator response.
