@@ -46,6 +46,7 @@ def main() -> None:
         g.draw(path)
 
     bot = BotService()
+
     operator = OperatorService()
 
     def ask_op_node(data: dict[str, str]) -> dict[str, Any]:
@@ -55,12 +56,14 @@ def main() -> None:
         return {"message": data["message"], "want_op": want_op}
 
     def bot_node(data: dict[str, Any]) -> dict[str, Any]:
+
         message = data["message"]
         response, confidence = bot.generate_response(message)
         return {"message": message, "response": response, "confidence": confidence}
 
     def needs_operator(data: dict[str, Any]) -> bool:
         return data.get("want_op", False)
+
 
     def operator_node(data: dict[str, Any]) -> dict[str, str]:
         reply = operator.handle_message(data["message"])

@@ -34,9 +34,11 @@ Graphviz system libraries.
 
 ```bash
 sudo apt-get install graphviz graphviz-dev  # Ubuntu/Debian
+
 pip install pygraphviz
 python langgraph_chat.py --draw-graph
 ```
+
 
 If `pygraphviz` is not available, you can still run the demo without the
 `--draw-graph` option. The graph will be skipped and the chatbot works as usual.
