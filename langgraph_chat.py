@@ -41,6 +41,7 @@ def main() -> None:
         g.draw(path)
 
     bot = BotService()
+
     operator = OperatorService()
 
     def bot_node(data: dict[str, str]) -> dict[str, Any]:

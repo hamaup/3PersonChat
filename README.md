@@ -13,6 +13,7 @@ python chat.py
 
 ## LangGraph demo
 
+
 An alternative implementation using [LangGraph](https://github.com/langchain-ai/langgraph) is provided. Install the package with:
 
 ```bash
@@ -21,9 +22,11 @@ pip install langgraph
 
 Run the demo with:
 
+
 ```bash
 python langgraph_chat.py
 ```
+
 
 Type messages in Japanese. If you include keywords such as `OP` or `オペレーター`,
 the conversation is handed off to a human operator. Otherwise the AI responds.
@@ -36,3 +39,4 @@ python langgraph_chat.py --draw-graph
 ```
 
 This writes `workflow.png` showing the conversation graph.
+
