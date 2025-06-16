@@ -24,6 +24,7 @@ def main() -> None:
         except ImportError:
             print("pygraphviz がインストールされていないため、グラフを保存できません。")
             return
+
         g = pgv.AGraph(directed=True)
         for node in graph.nodes:
             label = "START" if node == "__start__" else "END" if node == "__end__" else node
@@ -48,17 +49,21 @@ def main() -> None:
 
     operator = OperatorService()
 
-    def bot_node(data: dict[str, str]) -> dict[str, Any]:
+    def ask_op_node(data: dict[str, str]) -> dict[str, Any]:
+        """Ask the user if they want to talk to an operator."""
+        answer = input("オペレーターと話しますか？ [y/N]: ")
+        want_op = answer.lower().startswith("y")
+        return {"message": data["message"], "want_op": want_op}
+
+    def bot_node(data: dict[str, Any]) -> dict[str, Any]:
+
         message = data["message"]
         response, confidence = bot.generate_response(message)
         return {"message": message, "response": response, "confidence": confidence}
 
     def needs_operator(data: dict[str, Any]) -> bool:
-        message = data["message"]
-        for kw in ("OP", "オペレーター", "人間"):
-            if kw in message:
-                return True
-        return False
+        return data.get("want_op", False)
+
 
     def operator_node(data: dict[str, Any]) -> dict[str, str]:
         reply = operator.handle_message(data["message"])
@@ -68,12 +73,14 @@ def main() -> None:
         return {"final": f"Bot({data['confidence']:.1f}): {data['response']}"}
 
     workflow = Graph()
+    workflow.add_node("ask", ask_op_node)
     workflow.add_node("bot", bot_node)
     workflow.add_node("operator", operator_node)
     workflow.add_node("output", output_node)
-    workflow.set_entry_point("bot")
-    workflow.add_conditional_edges("bot", needs_operator, path_map={True: "operator", False: "output"})
-    workflow.add_edge("operator", END)
+    workflow.set_entry_point("ask")
+    workflow.add_conditional_edges("ask", needs_operator, path_map={True: "operator", False: "bot"})
+    workflow.add_edge("bot", "output")
+    workflow.add_edge("operator", "output")
     workflow.add_edge("output", END)
 
     app = workflow.compile()

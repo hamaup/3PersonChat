@@ -25,8 +25,9 @@ Run the demo with:
 python langgraph_chat.py
 ```
 
-Type messages in Japanese. If you include keywords such as `OP` or `オペレーター`,
-the conversation is handed off to a human operator. Otherwise the AI responds.
+Type messages in Japanese. After each message the bot asks whether you want to
+talk to an operator. Answer `y` to chat with the operator or `n` to continue with
+the bot.
 
 To visualize the workflow, you need the optional `pygraphviz` package and the
 Graphviz system libraries.
